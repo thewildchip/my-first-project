@@ -1,3 +1,2 @@
-# My First Project
-hihi
-hihi testing
+# TicTacToe
+Hi, I created this TicTacToe-game as part of my Praktikum!
