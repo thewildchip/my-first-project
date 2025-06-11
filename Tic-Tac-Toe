@@ -1,0 +1,106 @@
+board = [["#","#","#"],
+        ["#","#","#"],
+        ["#","#","#"]]
+
+def main():
+    while True:
+        play()
+        print(check_for_win())
+        print_board()
+        play("O")
+        print(check_for_win())
+        print_board()
+        
+def ask_for_board_size():
+    pass
+
+def get_input():
+    while True:
+        move = str(input()).strip()
+        try:
+            y_coordinate, x_coordinate = move.split(".")
+            y_coordinate = int(y_coordinate)
+            x_coordinate = int(x_coordinate)
+        except ValueError:
+            print("Type in this format, whereas y and x are integers: y.x")
+            pass
+        
+        else:
+            if (0 <= x_coordinate <= 2) and (0 <= y_coordinate <= 2) :
+                return x_coordinate, y_coordinate
+            else:
+                print("Invalid number(s), you monkey! You can only use the numbers 0, 1 and 2. Is it that hard to remember?")
+                pass
+        
+
+def play(char = "X"):
+    print(f"Player {char}:")
+    while True:
+        x, y = get_input()
+        try:
+            set_board(x,y, char)
+        except ValueError:
+            print("You stupid monkey! That place is already taken!")
+            pass
+        else:
+            break
+
+
+def check_for_win():
+    match check_rows_and_columns():
+        case "O":
+            return "O won!"
+        case "X":
+            return "X won!"
+        case _:
+            match check_diagonal():
+                case "O":
+                    return "O won!"
+                case "X":
+                    return "X won!"
+                case _:
+                    return "\n"
+    
+
+def check_rows_and_columns():
+    size = len(board)
+
+    for row in board:
+        if all(cell == row[0] for cell in row):
+            return row[0]
+
+    for col in range(size):
+        first = board[0][col]
+        if all(board[row][col] == first for row in range(size)):
+            return board[0][col]
+       
+def check_diagonal():
+    if board[0][0] == board[1][1] and board[1][1] == board[2][2]:
+        return board[1][1]
+    if board[2][0] == board[1][1] and board[1][1] == board[0][2]:
+        return board[2][0]
+
+def set_board(x,y, char):
+    if board[y][x] == "#":
+        board[y][x] = char
+    else:
+        raise ValueError
+
+def print_board():
+    for row in board:
+        for cell in row:
+            print(cell, end=" ")
+        print("\n")
+
+    
+        
+
+
+
+            
+
+
+    
+
+if __name__ == "__main__":
+    main()
